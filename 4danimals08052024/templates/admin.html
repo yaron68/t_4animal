@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin's (management) page</title>
+</head>
+	<style>
+	  body {
+		background-image: url('{{ url_for('static', filename='wallpaper.jpg') }}');
+		background-repeat: repeat; /* This will tile the image */
+		background-size: auto; /* Keeps the image's original size */
+		background-attachment: fixed; /* Keeps the background fixed during scrolling */
+		font-family: Arial, sans-serif;
+		line-height: 1.6;
+		margin: 20px;
+	  }
+
+      .table {
+        width: 100%;
+        background-color: #f8f9fa;
+        border-collapse: collapse; /* Ensures borders are collapsed into a single border */
+      }
+      h1 {
+		background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+		padding: 20px; /* Padding for spacing */
+		text-align: center; /* Center-align the header text */
+		border-bottom: 2px solid #8a8a8a; /* Add a subtle border for definition */
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: soft shadow for depth */
+	  }
+      .back-home {
+        text-align: center; /* Center the content of the div */
+        margin-top: 20px; /* Add some space between the form and the Back Home button */
+      }
+      .form-button {
+		background-color: #f0eae0;
+		color: #5a5a5a;
+		border: 2px solid #8a8a8a;
+		padding: 10px 20px;
+		font-size: 16px;
+		font-weight: bold;
+		cursor: pointer;
+		border-radius: 5px;
+		transition: background-color 0.3s ease;
+      }
+      footer {
+        text-align: center; /* Centers the text in the footer */
+        margin-top: 20px; /* Adds some space above the footer */
+        padding: 20px; /* Adds padding inside the footer for spacing */
+        background-color: #f0f0f0; /* Sets a background color for the footer */
+        color: #333; /* Sets the text color */
+      }
+
+      footer hr {
+        border: 0; /* Removes the default border */
+        height: 1px; /* Sets the height of the horizontal rule */
+        background-color: #333; /* Sets the color of the horizontal rule */
+        margin-bottom: 20px; /* Adds some space below the horizontal rule */
+      }
+	</style>
+
+<body>
+   <div class="site-content">
+           <div class="container">
+    <h1>Admin's (management) page</h1>
+
+    <!-- Buttons to trigger data retrieval and refresh -->
+    <button class="form-button" data-table="applicants" onclick="refreshTable('applicants', ['id', 'full_name', 'teudat_zehut', 'address', 'city', 'email', 'phone', 'approved', 'owner_of'])" style="margin-right: 20px;">Show Applicants</button>
+    <button class="form-button" data-table="animal" onclick="refreshTable('animal', ['id', 'name', 'color', 'birth_date', 'age', 'species', 'breed_name', 'chip_number', 'spayed_neutered', 'arrival', 'foster', 'current_owner', 'Vaccines'])" style="margin-right: 20px;">Show Animals</button>
+    <button class="form-button" data-table="volunteers" onclick="refreshTable('volunteers', ['id', 'full_name', 'teudat_zehut', 'address', 'city', 'email', 'phone', 'job_function', 'can_be_foster', 'animal_fostered'])" style="margin-right: 50px;">Show Volunteers</button>
+
+    <!-- Input field for ID and delete button -->
+    <label for="input-id">Select ID: </label>
+    <input type="text" id="input-id">
+    <button class="form-button" onclick="deleteEntry()">Delete</button>
+    <button class="form-button" onclick="approve()">Approve</button>
+
+    <table class="table" id="data-table" border="1">
+        <!-- Table headers and data will be populated dynamically -->
+    </table>
+   </div>
+    <script>
+        let currentTableInView = null;
+
+        function refreshTable(table, columnOrder) {
+            currentTableInView = table;
+            // Remove the active class from all buttons
+            document.querySelectorAll('button').forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Add the active class to the clicked button
+            event.target.classList.add('active');
+
+            fetch(`/admin/get_table_data/${table}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("data-table").innerHTML = '';
+                    let headerRow = '<tr>';
+                    columnOrder.forEach(header => {
+                        headerRow += `<th>${header}</th>`;
+                    });
+                    headerRow += '</tr>';
+                    document.getElementById("data-table").innerHTML += headerRow;
+                    data.forEach(entry => {
+                        let row = '<tr>';
+                        columnOrder.forEach(header => {
+                            row += `<td>${entry[header]}</td>`;
+                        });
+                        row += '</tr>';
+                        document.getElementById("data-table").innerHTML += row;
+                    });
+                });
+        }
+        columnOrders = {
+            'applicants': ['id', 'full_name', 'teudat_zehut', 'address', 'city', 'email', 'phone', 'approved', 'owner_of'],
+            'animal': ['id', 'name', 'color', 'birth_date', 'age', 'species', 'breed_name', 'chip_number', 'spayed_neutered', 'arrival', 'foster', 'current_owner', 'Vaccines'],
+            'volunteers': ['id', 'full_name', 'teudat_zehut', 'address', 'city', 'email', 'phone', 'job_function', 'can_be_foster', 'animal_fostered']
+        }
+
+        function deleteEntry() {
+            // Get the ID input value
+            let id = document.getElementById("input-id").value;
+            // Get the table name from the active button
+            let table = currentTableInView;
+
+            // Send a DELETE request to the backend to delete the entry
+            fetch(`/admin/delete/${table}/${id}`, { method: 'DELETE' })
+                .then(response => {
+                    if (response.ok) {
+                        // If deletion is successful, refresh the table
+                        fetch(`/admin/get_table_data/${table}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                document.getElementById("data-table").innerHTML = '';
+                                let headerRow = '<tr>';
+                                columnOrders.forEach(header => {
+                                    headerRow += `<th>${header}</th>`;
+                                });
+                                headerRow += '</tr>';
+                                document.getElementById("data-table").innerHTML += headerRow;
+                                data.forEach(entry => {
+                                    let row = '<tr>';
+                                    columnOrders.forEach(header => {
+                                        row += `<td>${entry[header]}</td>`;
+                                    });
+                                    row += '</tr>';
+                                    document.getElementById("data-table").innerHTML += row;
+                                });
+                            });
+                    } else {
+                        console.error('Failed to delete entry');
+                    }
+                });
+        }
+
+        function approve() {
+            // Get the ID input value
+            let id = document.getElementById("input-id").value;
+
+            let table = currentTableInView;
+
+            // Send a DELETE request to the backend to delete the entry
+            fetch(`/admin/approve/${table}/${id}`, { method: 'PUT' })
+                .then(response => {
+                    if (response.ok) {
+                        // If approve is successful, refresh the table
+                        fetch(`/admin/get_table_data/${table}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                document.getElementById("data-table").innerHTML = '';
+                                let headerRow = '<tr>';
+                                columnOrders.forEach(header => {
+                                    headerRow += `<th>${header}</th>`;
+                                });
+                                headerRow += '</tr>';
+                                document.getElementById("data-table").innerHTML += headerRow;
+                                data.forEach(entry => {
+                                    let row = '<tr>';
+                                    columnOrders.forEach(header => {
+                                        row += `<td>${entry[header]}</td>`;
+                                    });
+                                    row += '</tr>';
+                                    document.getElementById("data-table").innerHTML += row;
+                                });
+                            });
+                  } else {
+                        console.error('Failed to modify entry');
+                    }
+                });
+        }
+
+    </script>
+    <div class="back-home">
+    <a href="/" class="form-button">Back Home</a>
+    </div>
+
+	<footer>
+		<hr> <!-- Separator -->
+		<p>Created by Andrei Efremushkin, Yaron Chen and Asaf Ben Dror</p>
+	</footer>
+    </body>
+</html>

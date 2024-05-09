@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: 4danimals-container
+  labels:
+    flask: pc
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      flask: pc
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      name: flask-pod
+      labels:
+        flask: pc
+    spec:
+      containers:
+        - name: 4danimals-container
+          image: 4danimals:v1
+          command: ["gunicorn", "-b", "0.0.0.0:8080", "my_app:app"]
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: secret-volume
+              mountPath: /etc/docker/config.json
+              readOnly: true
+            # ... other container configurations
+#            volumes:
+#              - name: secret-volume
+#                secret:
+#                  secretName: dockerpass  # Replace with the name of your secret
+
+            # ... other pod configurations
+          # # resources:
+          #   limits:
+          #     cpu: "0.5"
+          #     memory: 500Mi
+#          readinessProbe:
+#            httpGet:
+#              path: /
+#              port: 8080
+#            initialDelaySeconds: 5
+#            timeoutSeconds: 15
+#          livenessProbe:
+#            httpGet:
+#                path: /test
+#                port: 8080
+#            initialDelaySeconds: 2
+#            timeoutSeconds: 3
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: flaskpc-service
+spec:
+  type: NodePort  # You can change the type to LoadBalancer or NodePort for external access (optional)
+  selector:
+    flask: pc
+  ports:
+  - port: 8080
+    targetPort: 8080

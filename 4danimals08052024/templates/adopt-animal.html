@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Adoption Application</title>
+	<style>
+	  body {
+		background-image: url('{{ url_for('static', filename='wallpaper.jpg') }}');
+		background-repeat: repeat; /* This will tile the image */
+		background-size: auto; /* Keeps the image's original size */
+		background-attachment: fixed; /* Keeps the background fixed during scrolling */
+		/* Add other styles as needed */
+	  }
+      .button-container button:hover {
+		background-color: #dcd0c0; /* Color change on hover */
+	  }
+     	footer {
+			text-align: center; /* Centers the text in the footer */
+			margin-top: 20px; /* Adds some space above the footer */
+			padding: 20px; /* Adds padding inside the footer for spacing */
+			background-color: #f0f0f0; /* Sets a background color for the footer */
+			color: #333; /* Sets the text color */
+		}
+
+		footer hr {
+			border: 0; /* Removes the default border */
+			height: 1px; /* Sets the height of the horizontal rule */
+			background-color: #333; /* Sets the color of the horizontal rule */
+			margin-bottom: 20px; /* Adds some space below the horizontal rule */
+		}
+	</style>
+</head>
+<body>
+   <div class="site-content">
+    <h1>Adoption Application</h1>
+    <form>
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name"><br>
+        <label for="address">Address:</label><br>
+        <input type="text" id="address" name="address"><br>
+        <!-- Add other fields similarly -->
+        <input type="submit" value="Submit">
+    </form>
+    <div class="back-home">
+    	<a href="/" class="form-button">Back Home</a>
+    </div>
+   </div>
+
+	<footer>
+		<hr> <!-- Separator -->
+		<p>Created by Andrei Efremushkin, Yaron Chen and Asaf Ben Dror</p>
+	</footer>
+</body>
+</html>
