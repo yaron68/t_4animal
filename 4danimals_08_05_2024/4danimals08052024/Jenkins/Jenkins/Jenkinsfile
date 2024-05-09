@@ -1,0 +1,41 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Clone repository') {
+            steps {
+                git 'https://github.com/devsecops14/4danimals04042024'
+            }
+        }
+        stage('Build Docker image') {
+            steps {
+                script {
+                    docker.build('4danimals')
+                }
+            }
+        }
+        stage('Run Docker container') {
+            steps {
+                script {
+                    docker.run("--name my-4danimals -d -p 8080:80 4danimals")
+                }
+            }
+        }
+        stage('Verify HTML pages') {
+            steps {
+                script {
+                    def pages = sh(script: 'ls -1 templates/*.html', returnStdout: true).trim().split('\n')
+                    for (page in pages) {
+                        sh "curl -f http://localhost:8080/${page}"
+                    }
+                }
+            }
+        }
+    }
+    post {
+        always {
+            sh 'docker stop my-4danimals'
+            sh 'docker rm my-4danimals'
+        }
+    }
+}

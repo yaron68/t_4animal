@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Animal</title>
+	<style>
+		html {
+			height: 100%; /* Ensure the root element takes up the full viewport height */
+		}
+		body {
+			display: flex; /* Enables Flexbox */
+			flex-direction: column; /* Stacks flex items vertically */
+			min-height: 100vh; /* Use the viewport height to ensure the body takes up at least the full height of the viewport */
+			margin: 0; /* Removes default margin */
+			background-image: url('{{ url_for('static', filename='wallpaper.jpg') }}');
+			background-repeat: repeat; /* This will tile the image */
+			background-size: auto; /* Keeps the image's original size */
+			background-attachment: fixed; /* Keeps the background fixed during scrolling */
+		}
+
+	    .site-content {
+		    flex: 1; /* Makes the content area grow to fill available space, pushing the footer down */
+		    display: flex; /* Enables flexbox for the content area */
+		    flex-direction: column; /* Stacks children vertically */
+	    }
+	  label {
+        font-weight: bold; /* Makes the label text bold */
+        display: block; /* Ensures the label is on its own line above the input */
+        margin-bottom: 5px; /* Adds some space between the label and the input field */
+      }
+
+	  .back-home {
+        text-align: center; /* Center the content of the div */
+        margin-top: 20px; /* Add some space between the form and the Back Home button */
+      }
+
+	  h1 {
+		background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+		padding: 20px; /* Padding for spacing */
+		text-align: center; /* Center-align the header text */
+		border-bottom: 2px solid #8a8a8a; /* Add a subtle border for definition */
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: soft shadow for depth */
+	  }
+
+	  header h1 {
+		font-size: 2em; /* Increase font size */
+		font-weight: bold; /* Bold font weight */
+		color: #5a5a5a; /* Dark color for contrast */
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Text shadow for better readability */
+		margin: 0; /* Remove default margin */
+	  }
+
+	  #addAnimalButton {
+		background-color: #f0eae0; /* Soft color that complements the background pattern */
+		color: #5a5a5a; /* A darker color for text to ensure readability */
+		border: 2px solid #8a8a8a; /* Slightly darker border to make the button stand out */
+		padding: 10px 20px; /* Adjust padding to your preference */
+		font-size: 16px; /* Font size of the text */
+		font-weight: bold; /* Make the text bold */
+		cursor: pointer; /* Change mouse cursor to pointer to indicate it's clickable */
+		border-radius: 5px; /* Rounded corners for a modern look */
+		transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+	  }
+
+	  #addAnimalButton:hover {
+		background-color: #dcd0c0; /* Lighter color on hover for a subtle effect */
+	  }
+
+        /* Button styles to match other buttons on your site */
+        .form-button {
+            background-color: #f0eae0; /* Soft color that complements the background */
+            color: #5a5a5a; /* A darker color for text to ensure readability */
+            border: 2px solid #8a8a8a; /* Border to make the button stand out */
+            padding: 10px 20px; /* Padding for size */
+            font-size: 16px; /* Font size */
+            font-weight: bold; /* Bold text */
+            cursor: pointer; /* Cursor to indicate clickable */
+            border-radius: 5px; /* Rounded corners for a modern look */
+            transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+            text-align: center; /* Center the text within the button */
+            text-decoration: none; /* Remove underline from the link */
+            display: inline-block; /* Allow width and height */
+            margin: 20px auto;
+        }
+
+        .form-button:hover {
+            background-color: #dcd0c0; /* Lighter color on hover for a subtle effect */
+        }
+
+        /* Form styles for better readability */
+        form {
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white for contrast */
+            padding: 20px; /* Padding around the form elements */
+            border-radius: 10px; /* Rounded corners for the form */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+            display: flex;
+            flex-direction: column;
+            max-width: 500px;
+            margin: 20px auto; /* Center the form */
+        }
+
+        .form-field {
+            margin-bottom: 15px; /* Space between form fields */
+        }
+
+        /* Additional styles for labels and inputs for better readability */
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input, select {
+            width: 100%; /* Make inputs take up full container width */
+            padding: 8px; /* Padding inside the inputs */
+            border: 1px solid #ccc; /* Subtle border around the inputs */
+            border-radius: 4px; /* Slightly rounded corners for the inputs */
+        }
+
+        input[type="checkbox"] {
+            width: auto; /* Do not stretch checkbox inputs */
+        }
+
+        .form-field {
+            display: flex; /* Aligns children (label and input) in a row */
+            align-items: center; /* Vertically centers the items in their container */
+            margin-bottom: 10px; /* Adds space between each form field */
+        }
+
+        .form-field label {
+            margin-right: 10px; /* Adds space between the label and the input */
+            white-space: nowrap; /* Prevents the label from wrapping */
+        }
+        footer {
+			text-align: center; /* Centers the text in the footer */
+			margin-top: 20px; /* Adds some space above the footer */
+			padding: 20px; /* Adds padding inside the footer for spacing */
+			background-color: #f0f0f0; /* Sets a background color for the footer */
+			color: #333; /* Sets the text color */
+		}
+
+		footer hr {
+			border: 0; /* Removes the default border */
+			height: 1px; /* Sets the height of the horizontal rule */
+			background-color: #333; /* Sets the color of the horizontal rule */
+			margin-bottom: 20px; /* Adds some space below the horizontal rule */
+		}
+
+    </style>
+
+    <script>
+        function validateForm() {
+            const inputs = document.querySelectorAll('input, select');
+            for (let i = 0; i < inputs.length; i++) {
+                if (inputs[i].hasAttribute('required') && !inputs[i].value.trim()) {
+                    alert('All fields must be filled out');
+                    return false; // Prevent form from submitting
+                }
+            }
+            return true; // Allow form submission
+        }
+    </script>
+
+</head>
+<body>
+   <div class="site-content">
+    <h1>Add New Animal</h1>
+    <form onsubmit="return validateForm()" method="post">
+        {% if errors %}
+        <ul class="errors">
+          {% for error in errors %}
+            <li>{{ error }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+       <div class="form-field">
+           <label for="name">Name:</label>
+           <input type="text" id="name" name="name" style="width: 150px;" required
+           {% if animal_data %}
+            value="{{ animal_data['name']['value'] or ''}}">
+           {% else %}
+            >
+           {% endif %}
+      </div>
+        <div class="form-field">
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender" style="width: 130px;" required>
+              {% if animal_data %}
+                    <option value="{{ animal_data['gender']['value'] }}" selected>{{ animal_data['gender']['value'] }}</option>
+                {% else %}
+                {% endif %}
+                 <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                </select>
+
+        </div>
+        <div class="form-field">
+            <label for="color">Color:</label>
+            <input type="text" id="color" name="color" style="width: 150px;" required
+                   {% if animal_data %}
+                   value="{{ animal_data['color']['value'] or ''}}">
+                   {% else %}
+                   >
+                   {% endif %}
+        </div>
+        <div class="form-field">
+            <label for="birth_date">Date of Birth:</label>
+            <input type="date" id="birth_date" name="birth_date" style="width: 100px;"
+                   {% if animal_data %}
+                   value="{{ animal_data['birth_date']['value'] }}">
+                   {% else %}
+                   >
+                   {% endif %}
+        </div>
+        <div class="form-field">
+            <label for="age">Age:</label>
+            <input type="text" id="age" name="age" style="width: 35px;"
+                   {% if animal_data %}
+                   value="{{ animal_data['age']['value'] }}">
+                   {% else %}
+                   >
+                   {% endif %}
+        </div>
+        <div class="form-field">
+            <label for="species">Species:</label>
+            <select id="species" name="species" style="width: 130px;" required >
+            {% if animal_data %}
+            <option value="{{ animal_data['species']['value'] }}" selected>{{ animal_data['species']['value'] }}</option>
+            {% else %}
+            {% endif %}
+                <option value="">Select species</option>
+                <option value="Dog">Dog</option>
+                <option value="Cat">Cat</option>
+                <option value="Fish">Fish</option>
+                <option value="Bird">Bird</option>
+                <option value="Reptile">Reptile</option>
+                <option value="Other">Other</option>
+            </select>
+
+        </div>
+        <div class="form-field">
+            <label for="breed_name">Breed Name:</label>
+            <input type="text" id="breed_name" name="breed_name" style="width: 150px;"
+                   {% if animal_data %}
+                   value="{{ animal_data['breed_name']['value'] }}">
+                   {% else %}
+                   >
+                   {% endif %}
+        </div>
+        <div class="form-field">
+            <label for="chip_number">Chip Number:</label>
+            <input type="text" id="chip_number" name="chip_number" style="width: 150px;"
+                   {% if animal_data %}
+                   value="{{ animal_data['chip_number']['value'] or '' }}">
+                   {% else %}
+                   >
+                   {% endif %}
+        </div>
+        <div class="form-field">
+            <label for="spayed_neutered">Spayed/Neutered:</label>
+            <input type="checkbox" id="spayed_neutered" name="spayed_neutered" >
+        </div>
+        <div class="form-field">
+            <label for="arrival">Arrival Date:</label>
+            <input type="date" id="arrival" name="arrival" style="width: 100px;" required
+                   {% if animal_data %}
+                   value="{{ animal_data['arrival']['value'] }}">
+                   {% else %}
+                   >
+                   {% endif %}
+        </div>
+        <div class="form-field">
+            <label for="foster">Foster:</label>
+            <input type="checkbox" id="foster" name="foster" >
+        </div>
+        <div class="form-field">
+            <label for="current_owner">Current Owner (ID):</label>
+            <input type="text" id="current_owner" name="current_owner" style="width: 150px;"
+                   {% if animal_data %}
+                   value="{{ animal_data['current_owner']['value'] or None}}">
+                   {% else %}
+                   >
+                   {% endif %}
+        </div>
+        <div class="form-field">
+            <label for="vaccines">Vaccines:</label>
+            <input type="text" id="vaccines" name="vaccines" style="width: 150px;"
+                   {% if animal_data %}
+                   value="{{ animal_data['vaccines']['value'] or ''}}">
+                   {% else %}
+                   >
+                   {% endif %}
+        </div>
+        <button type="submit" class="form-button">Submit</button>
+    </form>
+    <div class="back-home">
+    <a href="/" class="form-button">Back Home</a>
+    </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('birth_date').addEventListener('change', function() {
+            const dob = new Date(this.value);
+            const today = new Date();
+            let age = today.getFullYear() - dob.getFullYear();
+            const m = today.getMonth() - dob.getMonth();
+
+            if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+                age--;
+            }
+
+            document.getElementById('age').value = age >= 0 ? age : '';
+        });
+    });
+</script>
+   </div>
+
+	<footer>
+		<hr> <!-- Separator -->
+		<p>Created by Andrei Efremushkin, Yaron Chen and Asaf Ben Dror</p>
+	</footer>
+</body>
+</html>

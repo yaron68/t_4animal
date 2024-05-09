@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Adoption FAQs</title>
+	<style>
+	  body {
+		background-image: url('{{ url_for('static', filename='wallpaper.jpg') }}');
+		background-repeat: repeat; /* This will tile the image */
+		background-size: auto; /* Keeps the image's original size */
+		background-attachment: fixed; /* Keeps the background fixed during scrolling */
+		font-family: Arial, sans-serif;
+		line-height: 1.6;
+		margin: 20px;
+	  }
+        .faq-container {
+        	background-color: rgba(255, 255, 255, 0.8);
+            max-width: 800px;
+            margin: auto;
+        }
+        .faq-question {
+            font-weight: bold;
+            margin: 20px 0 10px;
+        }
+        .faq-answer {
+            margin-bottom: 20px;
+        }
+	  .button-container {
+		display: flex; /* This will arrange the child buttons in a row */
+		justify-content: center; /* This centers the buttons horizontally */
+		flex-wrap: wrap; /* This allows buttons to wrap to the next line on smaller screens */
+		padding: 20px; /* Add some padding around the container for spacing */
+	  }
+
+	  .button-container button {
+		background-color: #f0eae0; /* Soft color that complements the background */
+		color: #5a5a5a; /* A darker color for text to ensure readability */
+		border: 2px solid #8a8a8a; /* Border to make the button stand out */
+		padding: 10px 20px; /* Padding for size */
+		font-size: 16px; /* Font size */
+		font-weight: bold; /* Bold text */
+		cursor: pointer; /* Cursor to indicate clickable */
+		border-radius: 5px; /* Rounded corners for a modern look */
+		transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+		margin: 10px; /* Space between buttons */
+	  }
+
+	  .button-container button:hover {
+		background-color: #dcd0c0; /* Color change on hover */
+	  }
+
+	  .back-home {
+        text-align: center; /* Center the content of the div */
+        margin-top: 20px; /* Add some space between the form and the Back Home button */
+      }
+
+	  h1 {
+		background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+		padding: 20px; /* Padding for spacing */
+		text-align: center; /* Center-align the header text */
+		border-bottom: 2px solid #8a8a8a; /* Add a subtle border for definition */
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: soft shadow for depth */
+	  }
+
+	  header h1 {
+		font-size: 2em; /* Increase font size */
+		font-weight: bold; /* Bold font weight */
+		color: #5a5a5a; /* Dark color for contrast */
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Text shadow for better readability */
+		margin: 0; /* Remove default margin */
+	  }
+		.form-button {
+		background-color: #f0eae0;
+		color: #5a5a5a;
+		border: 2px solid #8a8a8a;
+		padding: 10px 20px;
+		font-size: 16px;
+		font-weight: bold;
+		cursor: pointer;
+		border-radius: 5px;
+		transition: background-color 0.3s ease;
+	}
+		footer {
+			text-align: center; /* Centers the text in the footer */
+			margin-top: 20px; /* Adds some space above the footer */
+			padding: 20px; /* Adds padding inside the footer for spacing */
+			background-color: #f0f0f0; /* Sets a background color for the footer */
+			color: #333; /* Sets the text color */
+		}
+
+		footer hr {
+			border: 0; /* Removes the default border */
+			height: 1px; /* Sets the height of the horizontal rule */
+			background-color: #333; /* Sets the color of the horizontal rule */
+			margin-bottom: 20px; /* Adds some space below the horizontal rule */
+		}
+	</style>
+
+</head>
+<body>
+   <div class="site-content">
+    <div class="faq-container">
+        <h1>Pet Adoption FAQs</h1>
+
+        <div class="faq">
+            <div class="faq-question">1. How does the adoption process work?</div>
+            <div class="faq-answer">The adoption process typically starts with you browsing our available pets online or visiting our adoption center. Once you've found a pet you're interested in, you can fill out an adoption application form. Our team will then review your application, and if approved, we'll schedule a meet-and-greet with the pet. After a successful meeting, we'll guide you through the final steps of the adoption, including signing the adoption agreement and paying the adoption fee.</div>
+        </div>
+
+        <div class="faq">
+            <div class="faq-question">2. What are the requirements for adopting a pet?</div>
+            <div class="faq-answer">Adopters must be at least 18 years old with a valid ID. We look for stable living situations and the ability to provide a loving, safe, and healthy environment for the pet. Some pets may have specific needs, so we assess each adoption on a case-by-case basis.</div>
+        </div>
+
+        <div class="faq">
+            <div class="faq-question">3. Can I adopt a pet if I live in an apartment?</div>
+            <div class="faq-answer">Yes, many of our pets can thrive in an apartment setting. We recommend considering the size, energy level, and breed of the pet to ensure it's a good match for apartment living. Some apartment complexes have pet policies, so please check with your landlord or management.</div>
+        </div>
+
+        <div class="faq">
+            <div class="faq-question">4. What is included in the adoption fee?</div>
+            <div class="faq-answer">The adoption fee typically includes spaying/neutering, current vaccinations, microchipping, and sometimes a free veterinary exam or pet insurance trial. The fee helps cover some of the costs we incur to care for our animals and supports our ongoing rescue efforts.</div>
+        </div>
+
+        <div class="faq">
+            <div class="faq-question">5. How can I prepare my home for a new pet?</div>
+            <div class="faq-answer">Preparing your home involves ensuring it's safe and pet-friendly. Remove hazardous items, secure trash cans, and toxic plants. Set up a comfortable space for your pet with bedding, food and water dishes, and toys. Consider where your pet will eat, sleep, and where any litter boxes or potty pads will be placed.</div>
+        </div>
+
+        <div class="faq">
+            <div class="faq-question">6. How do you assess the behavior of pets available for adoption?</div>
+            <div class="faq-answer">Our pets undergo behavioral assessments to understand their personality, likes, dislikes, and any special needs. This helps us match pets with suitable homes and provide adopters with guidance on care and training.</div>
+        </div>
+
+        <div class="faq">
+            <div class="faq-question">7. Can I adopt a pet as a gift for someone else?</div>
+            <div class="faq-answer">While the intention is kind, we recommend that the potential primary caregiver be involved in the adoption process to ensure a good match. Pets are a long-term commitment, and it's important that the adopter is fully prepared and willing to take on the responsibility.</div>
+        </div>
+
+        <div class="faq">
+            <div class="faq-question">8. What should I do if my adopted pet has health issues?</div>
+            <div class="faq-answer">We strive to ensure all pets are healthy before adoption, but unforeseen health issues may arise. If your new pet shows signs of illness shortly after adoption, please contact us. We can provide advice and may assist with veterinary care, depending on the situation and our policies.</div>
+        </div>
+
+        <div class="faq">
+            <div class="faq-question">9. Can I return a pet if it's not a good fit?</div>
+            <div class="faq-answer">We understand that not all adoptions work out as expected. If you're having issues, please contact us. We offer support and advice, and if necessary, we can accept the pet back. Our goal is to ensure the well-being of both the pet and the adopter.</div>
+        </div>
+
+        <div class="faq">
+            <div class="faq-question">10. How can I support the adoption center if I'm not ready to adopt?</div>
+            <div class="faq-answer">There are many ways to support us, including donations, volunteering, fostering pets, and spreading the word about our adoption center and our pets in need of homes. Every bit of support helps us continue our mission to rescue and rehome pets.</div>
+        </div>
+   </div>
+    <div class="back-home">
+    <a href="/" class="form-button">Back Home</a>
+    </div>
+	<footer>
+		<hr> <!-- Separator -->
+		<p>Created by Andrei Efremushkin, Yaron Chen and Asaf Ben Dror</p>
+	</footer>
+</body>
+</html>

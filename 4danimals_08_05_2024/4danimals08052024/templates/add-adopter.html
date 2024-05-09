@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Adopter</title>
+    <style>
+		html {
+			height: 100%; /* Ensure the root element takes up the full viewport height */
+		}
+		body {
+			display: flex; /* Enables Flexbox */
+			flex-direction: column; /* Stacks flex items vertically */
+			min-height: 100vh; /* Use the viewport height to ensure the body takes up at least the full height of the viewport */
+			margin: 0; /* Removes default margin */
+			background-image: url('{{ url_for('static', filename='wallpaper.jpg') }}');
+			background-repeat: repeat; /* This will tile the image */
+			background-size: auto; /* Keeps the image's original size */
+			background-attachment: fixed; /* Keeps the background fixed during scrolling */
+		}
+
+	    .site-content {
+		    flex: 1; /* Makes the content area grow to fill available space, pushing the footer down */
+		    display: flex; /* Enables flexbox for the content area */
+		    flex-direction: column; /* Stacks children vertically */
+	    }
+	  label {
+        font-weight: bold; /* Makes the label text bold */
+        display: block; /* Ensures the label is on its own line above the input */
+        margin-bottom: 5px; /* Adds some space between the label and the input field */
+      }
+      h1{
+		background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+		padding: 20px; /* Padding for spacing */
+		text-align: center; /* Center-align the header text */
+		border-bottom: 2px solid #8a8a8a; /* Add a subtle border for definition */
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: soft shadow for depth */
+	  }
+        .form-button {
+            background-color: #f0eae0; /* Soft color that complements the background */
+            color: #5a5a5a; /* A darker color for text to ensure readability */
+            border: 2px solid #8a8a8a; /* Border to make the button stand out */
+            padding: 10px 20px; /* Padding for size */
+            font-size: 16px; /* Font size */
+            font-weight: bold; /* Bold text */
+            cursor: pointer; /* Cursor to indicate clickable */
+            border-radius: 5px; /* Rounded corners for a modern look */
+            transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+            text-align: center; /* Center the text within the button */
+            text-decoration: none; /* Remove underline from the link */
+            display: inline-block; /* Allow width and height */
+            margin: 20px auto;
+        }
+
+      .form-button:hover {
+        background-color: #dcd0c0;
+      }
+      .form-button {
+            /* Button styles */
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            max-width: 500px;
+            margin: 20px auto;
+        }
+      .form-field {
+            margin-bottom: 15px;
+        }
+
+        /* <Additiona></Additiona>l styles for form layout */
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 300px; /* Adjust based on your layout */
+            margin: auto;
+        }
+        .form-field {
+            margin-bottom: 10px;
+        }
+
+        .back-home {
+        text-align: center; /* Center the content of the div */
+        margin-top: 20px; /* Add some space between the form and the Back Home button */
+        }
+
+        form {
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white for contrast */
+            padding: 20px; /* Padding around the form elements */
+            border-radius: 10px; /* Rounded corners for the form */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+            display: flex;
+            flex-direction: column;
+            max-width: 500px;
+            margin: 20px auto; /* Center the form */
+        }
+
+        .form-field {
+            display: flex; /* Aligns children (label and input) in a row */
+            align-items: center; /* Vertically centers the items in their container */
+            margin-bottom: 10px; /* Adds space between each form field */
+        }
+
+        .form-field label {
+            margin-right: 10px; /* Adds space between the label and the input */
+            white-space: nowrap; /* Prevents the label from wrapping */
+        }
+        footer {
+			text-align: center; /* Centers the text in the footer */
+			margin-top: 20px; /* Adds some space above the footer */
+			padding: 20px; /* Adds padding inside the footer for spacing */
+			background-color: #f0f0f0; /* Sets a background color for the footer */
+			color: #333; /* Sets the text color */
+		}
+
+		footer hr {
+			border: 0; /* Removes the default border */
+			height: 1px; /* Sets the height of the horizontal rule */
+			background-color: #333; /* Sets the color of the horizontal rule */
+			margin-bottom: 20px; /* Adds some space below the horizontal rule */
+		}
+
+
+    </style>
+</head>
+<body>
+   <div class="site-content">
+    <h1>Add New Adopter</h1>
+    <form onsubmit="return validateForm()" method="post">
+        <div class="form-field">
+            <label for="full_name">Name:</label>
+            <input type="text" id="full_name" name="full_name" style="width: 150px;" required>
+        </div>
+        <div class="form-field">
+            <label for="teudat_zehut">Teudat Zehut:</label>
+            <input  type="text" id="teudat_zehut" name="teudat_zehut" style="width: 150px;" required>
+        </div>
+        <div class="form-field">
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" style="width: 150px;">
+        </div>
+        <div class="form-field">
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" style="width: 150px;">
+        </div>
+        <div class="form-field">
+            <label for="mail">Mail:</label>
+            <input type="text" id="mail" name="mail" style="width: 150px;">
+        </div>
+        <div class="form-field">
+            <label for="phone">Phone number:</label>
+            <input type="text" id="phone" name="phone" style="width: 150px;" required>
+        </div>
+        <div class="form-field">
+            <label for="owner_of">Owner of:</label>
+            <input type="text" id="owner_of" name="owner_of" style="width: 150px;">
+        </div>
+        <button type="submit" class="form-button">Submit</button>
+
+    </form>
+
+    <script>
+        // Example JavaScript to handle form submission
+        document.getElementById('adopterForm').onsubmit = function(e) {
+            e.preventDefault(); // Prevent default form submission
+
+            // You can add a fetch() here to submit the form data to your Flask route
+            // Example:
+            // fetch('/add-adopter', {
+            //     method: 'POST',
+            //     body: new FormData(this),
+            //     // Additional fetch options as needed
+            // }).then(response => {
+            //     if (response.ok) {
+            //         alert('Adopter added successfully');
+            //         // Redirect or clear form as needed
+            //     } else {
+            //         alert('Failed to add adopter');
+            //     }
+            // });
+        };
+    </script>
+    <div class="back-home">
+    	<a href="/" class="form-button">Back Home</a>
+    </div>
+</div>
+	<footer>
+		<hr> <!-- Separator -->
+		<p>Created by Andrei Efremushkin, Yaron Chen and Asaf Ben Dror</p>
+	</footer>
+</body>
+</html>

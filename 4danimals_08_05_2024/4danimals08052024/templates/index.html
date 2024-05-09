@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animal Adoption Portal</title>
+	<style>
+		html {
+			height: 100%; /* Ensure the root element takes up the full viewport height */
+		}
+		body {
+			display: flex; /* Enables Flexbox */
+			flex-direction: column; /* Stacks flex items vertically */
+			min-height: 100vh; /* Use the viewport height to ensure the body takes up at least the full height of the viewport */
+			margin: 0; /* Removes default margin */
+			background-image: url('{{ url_for('static', filename='wallpaper.jpg') }}');
+			background-repeat: repeat; /* This will tile the image */
+			background-size: auto; /* Keeps the image's original size */
+			background-attachment: fixed; /* Keeps the background fixed during scrolling */
+		}
+
+	    .site-content {
+		    flex: 1; /* Makes the content area grow to fill available space, pushing the footer down */
+		    display: flex; /* Enables flexbox for the content area */
+		    flex-direction: column; /* Stacks children vertically */
+	    }
+
+	    .button-container {
+			display: flex; /* This will arrange the child buttons in a row */
+			justify-content: center; /* This centers the buttons horizontally */
+			flex-wrap: wrap; /* This allows buttons to wrap to the next line on smaller screens */
+			padding: 20px; /* Add some padding around the container for spacing */
+	    }
+
+		.button-container button {
+			background-color: #f0eae0; /* Soft color that complements the background */
+			color: #5a5a5a; /* A darker color for text to ensure readability */
+			border: 2px solid #8a8a8a; /* Border to make the button stand out */
+			padding: 10px 20px; /* Padding for size */
+			font-size: 16px; /* Font size */
+			font-weight: bold; /* Bold text */
+			cursor: pointer; /* Cursor to indicate clickable */
+			border-radius: 5px; /* Rounded corners for a modern look */
+			transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+			margin: 10px; /* Space between buttons */
+		}
+
+		.button-container button:hover {
+			background-color: #dcd0c0; /* Color change on hover */
+		}
+
+		header {
+			background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+			padding: 20px; /* Padding for spacing */
+			text-align: center; /* Center-align the header text */
+			border-bottom: 2px solid #8a8a8a; /* Add a subtle border for definition */
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: soft shadow for depth */
+		}
+
+		header h1 {
+			font-size: 2em; /* Increase font size */
+			font-weight: bold; /* Bold font weight */
+			color: #5a5a5a; /* Dark color for contrast */
+			text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Text shadow for better readability */
+			margin: 0; /* Remove default margin */
+		}
+		footer {
+			text-align: center; /* Centers the text in the footer */
+			margin-top: 20px; /* Adds some space above the footer */
+			padding: 20px; /* Adds padding inside the footer for spacing */
+			background-color: #f0f0f0; /* Sets a background color for the footer */
+			color: #333; /* Sets the text color */
+		}
+
+		footer hr {
+			border: 0; /* Removes the default border */
+			height: 1px; /* Sets the height of the horizontal rule */
+			background-color: #333; /* Sets the color of the horizontal rule */
+			margin-bottom: 20px; /* Adds some space below the horizontal rule */
+		}
+        .index-background {
+			background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            padding: 20px;
+            border-radius: 5px; /* Rounded corners for aesthetics */
+            margin: 10px; /* Adds space between container and filters/table */
+            flex: 1; /* Makes the content area grow to fill available space, pushing the footer down */
+		    display: flex; /* Enables flexbox for the content area */
+		    flex-direction: column; /* Stacks children vertically */
+        }
+	</style>
+
+</head>
+<body>
+   <div class="site-content">
+	<header>
+		<h1>Welcome to Our Animal Adoption Portal</h1>
+	</header>
+    <nav>
+		<div class="index-background">
+		<div class="button-container">
+			<button onclick="location.href='add-volunteer'">New Volunteer</button>
+			<button onclick="location.href='add-adopter'">New Adopter</button>
+			<button onclick="location.href='add-animal'">New Animal</button>
+		</div>
+		<div class="button-container">
+			<button onclick="location.href='view-volunteers'">View Volunteers</button>
+			<button onclick="location.href='view-adopters'">View Adopters</button>
+			<button onclick="location.href='view-animals'">View Animals</button>
+
+		</div>
+		<div class="button-container">
+			<button onclick="location.href='about-us'">About Us</button>
+			<button onclick="location.href='faqs'">FAQs</button>
+		</div>
+		<div class="button-container">
+			<button onclick="location.href='log-in'">Log-In</button>
+		</div>
+
+		</div>
+    </nav>
+   </div>
+	<footer>
+		<hr> <!-- Separator -->
+		<p>Created by Andrei Efremushkin, Yaron Chen and Asaf Ben Dror</p>
+	</footer>
+
+</body>
+</html>

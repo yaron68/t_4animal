@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Animals</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        html {
+			height: 100%; /* Ensure the root element takes up the full viewport height */
+		}
+        body {
+			display: flex; /* Enables Flexbox */
+			flex-direction: column; /* Stacks flex items vertically */
+			min-height: 100vh; /* Use the viewport height to ensure the body takes up at least the full height of the viewport */
+			margin: 0; /* Removes default margin */
+			background-image: url('{{ url_for('static', filename='wallpaper.jpg') }}');
+			background-repeat: repeat; /* This will tile the image */
+			background-size: auto; /* Keeps the image's original size */
+			background-attachment: fixed; /* Keeps the background fixed during scrolling */
+	    }
+        body, h4 {
+            font-weight: bold; /* Makes all text bold */
+        }
+        .site-content {
+		    flex: 1; /* Makes the content area grow to fill available space, pushing the footer down */
+		    display: flex; /* Enables flexbox for the content area */
+		    flex-direction: column; /* Stacks children vertically */
+	    }
+        .container {
+            display: flex;
+            #flex-wrap: wrap; /* Allows items to wrap if needed */
+            margin-top: 20px;
+
+        }
+        .filters, .animal-table {
+            background-color: #f8f9fa; /* Light background for contrast */
+            padding: 20px;
+            border-radius: 5px; /* Rounded corners for aesthetics */
+            margin: 10px; /* Adds space between container and filters/table */
+        }
+        .filters {
+            flex: 1; /* Allows flexible width */
+            min-width: 250px; /* Minimum width */
+            margin-right: 20px; /* Space between filters and table */
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .animal-table {
+            flex: 8; /* Gives more space to the table */
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            overflow-x: auto; /* Keeps it scrollable if the content is too wide */
+   		    display: inline-block; /* Enables flexbox for the content area */
+
+        }
+        .form-control, .form-check-input, .form-check-label, .btn-primary {
+            font-weight: bold; /* Bold text for form controls and button */
+        }
+        .table th, .table td {
+            border: 1px solid #000; /* Sets a solid black border for table headers and cells */
+            padding: 8px; /* Adds some padding inside cells for better readability */
+            text-align: left; /* Aligns text to the left; adjust as needed */
+        }
+
+        .table {
+            #width: 100%;
+
+            border-collapse: collapse; /* Ensures borders are collapsed into a single border */
+        }
+        .back-home {
+            text-align: center; /* Center the content of the div */
+            margin-top: 20px; /* Add some space between the form and the Back Home button */
+        }
+        .table thead th {
+            border-bottom: 2px solid #000; /* Makes the bottom border of the header cells thicker */
+        }
+        .table tbody tr:nth-child(odd) {
+            background-color: #f2f2f2; /* Adds a subtle background color to every other row for better readability */
+        }
+        .form-button {
+            background-color: #f0eae0;
+            color: #5a5a5a;
+            border: 2px solid #8a8a8a;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .form-button {
+            background-color: #f0eae0; /* Button background color */
+            color: #5a5a5a; /* Text color */
+            border: 2px solid #8a8a8a; /* Border color */
+            /* Other styling properties */
+        }
+        footer {
+			text-align: center; /* Centers the text in the footer */
+			margin-top: 20px; /* Adds some space above the footer */
+			padding: 20px; /* Adds padding inside the footer for spacing */
+			background-color: #f0f0f0; /* Sets a background color for the footer */
+			color: #333; /* Sets the text color */
+		}
+
+		footer hr {
+			border: 0; /* Removes the default border */
+			height: 1px; /* Sets the height of the horizontal rule */
+			background-color: #333; /* Sets the color of the horizontal rule */
+			margin-bottom: 20px; /* Adds some space below the horizontal rule */
+		}
+    </style>
+</head>
+<body>
+   <div class="site-content">
+    <div class="container">
+        <div class="filters">
+            <h4>Filters</h4>
+            <form id="filterForm" method="POST">
+                <div class="form-group">
+                    <label for="gender">Gender:</label>
+                    <select id="gender" name="gender" class="form-control">
+                        <option value="">Any</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="age_min">Age Range:</label>
+                    <input type="number" id="age_min" name="age_min" class="form-control" placeholder="Min">
+                    <input type="number" id="age_max" name="age_max" class="form-control" placeholder="Max">
+                </div>
+                <div class="form-group">
+                    <label for="species">Species:</label>
+                    <input type="text" id="species" name="species" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="breed">Breed:</label>
+                    <input type="text" id="breed" name="breed" class="form-control">
+                </div>
+                <div class="form-check">
+                    <input type="checkbox" id="spayed_neutered" name="spayed_neutered" class="form-check-input">
+                    <label for="spayed_neutered" class="form-check-label">Spayed/Neutered</label>
+                </div>
+                <button type="submit" class="btn form-button">Apply Filters</button>
+            </form>
+        </div>
+        <div class="animal-table">
+            <h4>Animals</h4>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Name</th>
+                        <th>Gender</th>
+                        <th>Color</th>
+                        <th>Date Of Birth</th>
+                        <th>Age</th>
+                        <th>Species</th>
+                        <th>Breed</th>
+                        <th>Chip Number</th>
+                        <th>Spayed / Neutered</th>
+                        <th>Arrival Date</th>
+                        <th>In Foster</th>
+                        <th>Current Owner</th>
+                        <th>Vaccines</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for animal in animals %}
+                        <tr>
+                            <td>{{ animal.id }}</td>
+                            <td>{{ animal.name }}</td>
+                            <td>{{ animal.gender }}</td>
+                            <td>{{ animal.color }}</td>
+                            <td>{{ animal.birth_date }}</td>
+                            <td>{{ animal.age }}</td>
+                            <td>{{ animal.species }}</td>
+                            <td>{{ animal.breed_name }}</td>
+                            <td>{{ animal.chip_number }}</td>
+                            <td>{{ 'Yes' if animal.spayed_neutered else 'No' }}</td>
+                            <td>{{ animal.arrival }}</td>
+                            <td>{{ 'Yes' if animal.foster else 'No' }}</td>
+                            <td>{{ animal.current_owner }}</td>
+                            <td>{{ animal.vaccines }}</td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="14">No animals found</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <div class="back-home">
+    <a href="/" class="form-button">Back Home</a>
+    </div>
+    </div>
+	<footer>
+		<hr> <!-- Separator -->
+		<p>Created by Andrei Efremushkin, Yaron Chen and Asaf Ben Dror</p>
+	</footer>
+</body>
+</html>
