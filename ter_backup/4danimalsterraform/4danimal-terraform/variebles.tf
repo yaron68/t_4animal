@@ -4,9 +4,9 @@ variable "region" {
 }
 variable "aws_access" {
     description = "value"
-    default = "AKIA4O2USSS3IC3GHC6E"
+    default = ""
 }
 variable "aws_secret" {
     description = "value"
-    default = "WEgOamUAEgxHTeVaRc3ThSHbttjsMOwlc1N+plLQ"
+    default = ""
 }
