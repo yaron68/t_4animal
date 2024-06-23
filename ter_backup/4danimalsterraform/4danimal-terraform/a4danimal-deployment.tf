@@ -1,4 +1,3 @@
-
 data "aws_eks_cluster" "a4danimal" {
   name = aws_eks_cluster.a4danimal.name
 }
@@ -51,8 +50,8 @@ resource "kubernetes_deployment" "a4danimal4app" {
           name  = "a4danimal-app-container"
           image = "andreie/4danimals:latest"
           port {
-            container_port = 8081
-            host_port = 8081
+            container_port = 8080
+            host_port = 8080
           }
         }
       }
@@ -73,9 +72,11 @@ resource "kubernetes_service" "a4danimal_app" {
 
     port {
       port        = 80
-      target_port = 8081
+      target_port = 8080
     }
+    
 
     type = "LoadBalancer"
   }
 }
+
